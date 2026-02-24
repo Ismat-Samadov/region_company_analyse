@@ -18,9 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 
-INPUT_PATH = os.path.join(DATA_DIR, "REGIONS.xlsx")
 REGIONS_CSV = os.path.join(DATA_DIR, "regions.csv")
-OUTPUT_XLSX = os.path.join(DATA_DIR, "taxpayers_all_regions.xlsx")
+OUTPUT_CSV = os.path.join(DATA_DIR, "taxpayers_all_regions.csv")
+OUTPUT_SUMMARY_CSV = os.path.join(DATA_DIR, "taxpayers_all_regions_summary.csv")
 OUTPUT_JSONL = os.path.join(DATA_DIR, "taxpayers_all_regions.jsonl")
 PROGRESS_PATH = os.path.join(DATA_DIR, "taxpayers_progress.json")
 
@@ -225,14 +225,15 @@ def fetch_region(session: requests.Session, region: str, logger: logging.Logger)
     return rows
 
 
-def write_excel(all_rows: list, summary_rows: list, logger: logging.Logger) -> None:
+def write_csv(all_rows: list, summary_rows: list, logger: logging.Logger) -> None:
     os.makedirs(DATA_DIR, exist_ok=True)
-    tmp_path = f"{OUTPUT_XLSX}.tmp"
-    with pd.ExcelWriter(tmp_path, engine="openpyxl") as writer:
-        pd.DataFrame(all_rows).to_excel(writer, index=False, sheet_name="taxpayers")
-        pd.DataFrame(summary_rows).to_excel(writer, index=False, sheet_name="summary")
-    os.replace(tmp_path, OUTPUT_XLSX)
-    logger.info("Wrote output to %s", OUTPUT_XLSX)
+    tmp_taxpayers = f"{OUTPUT_CSV}.tmp"
+    tmp_summary = f"{OUTPUT_SUMMARY_CSV}.tmp"
+    pd.DataFrame(all_rows).to_csv(tmp_taxpayers, index=False)
+    pd.DataFrame(summary_rows).to_csv(tmp_summary, index=False)
+    os.replace(tmp_taxpayers, OUTPUT_CSV)
+    os.replace(tmp_summary, OUTPUT_SUMMARY_CSV)
+    logger.info("Wrote output to %s and %s", OUTPUT_CSV, OUTPUT_SUMMARY_CSV)
 
 
 def main() -> int:
@@ -290,7 +291,7 @@ def main() -> int:
     else:
         counts = {}
     summary_rows = [{"region": region, "count": counts.get(region, 0)} for region in regions]
-    write_excel(all_rows, summary_rows, logger)
+    write_csv(all_rows, summary_rows, logger)
     logger.info("Completed successfully")
     return 0
 
