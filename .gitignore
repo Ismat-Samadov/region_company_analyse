@@ -23,3 +23,5 @@ __pycache__/
 dist/
 build/
 *.egg
+logs/
+data/taxpayers_progress.json
