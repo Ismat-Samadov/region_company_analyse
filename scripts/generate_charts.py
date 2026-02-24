@@ -23,12 +23,13 @@ plt.rcParams['axes.labelsize'] = 11
 CHARTS_DIR = Path('charts')
 CHARTS_DIR.mkdir(exist_ok=True)
 
-# Load data
-print("Loading data...")
-df = pd.read_csv('data/taxpayers_all_regions.csv')
-summary_df = pd.read_csv('data/taxpayers_all_regions_summary.csv')
+# Load cleaned data
+print("Loading cleaned data...")
+df = pd.read_csv('data/taxpayers_all_regions_clean.csv')
+summary_df = pd.read_csv('data/taxpayers_all_regions_summary_clean.csv')
 
-print(f"Loaded {len(df)} company records from {df['region'].nunique()} regions")
+print(f"Loaded {len(df)} unique company records from {df['region'].nunique()} regions")
+print(f"(Data cleaned: duplicates removed, regions normalized)")
 
 
 def chart_1_company_status_overview():
@@ -348,13 +349,20 @@ def chart_7_data_coverage_quality():
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
-    # Coverage status distribution
-    colors1 = ['#2ecc71', '#f39c12', '#e74c3c']
+    # Coverage status distribution - dynamic labels based on actual data
+    status_label_map = {
+        'Complete (50)': ('Complete\n(50 records)', '#2ecc71'),
+        'Incomplete (1-49)': ('Incomplete\n(1-49 records)', '#f39c12'),
+        'No Data (0)': ('No Data\n(0 records)', '#e74c3c')
+    }
+
+    labels = [status_label_map[s][0] for s in status_counts.index]
+    colors1 = [status_label_map[s][1] for s in status_counts.index]
+
     bars1 = ax1.bar(range(len(status_counts)), status_counts.values,
                     color=colors1, alpha=0.8, width=0.6)
     ax1.set_xticks(range(len(status_counts)))
-    ax1.set_xticklabels(['Complete\n(50 records)', 'Incomplete\n(1-49 records)', 'No Data\n(0 records)'],
-                        fontsize=11)
+    ax1.set_xticklabels(labels, fontsize=11)
     ax1.set_ylabel('Number of Regions', fontsize=12)
     ax1.set_title('Data Coverage Status by Region', fontsize=14, fontweight='bold')
 

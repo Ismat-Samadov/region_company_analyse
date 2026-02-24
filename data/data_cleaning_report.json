@@ -1,0 +1,71 @@
+{
+  "cleaning_date": "2026-02-25T00:02:45.803478",
+  "original_stats": {
+    "total_records": 4545,
+    "unique_tins": 3872,
+    "unique_regions": 93
+  },
+  "cleaned_stats": {
+    "total_records": 3872,
+    "unique_tins": 3872,
+    "unique_regions": 80
+  },
+  "removed": {
+    "duplicate_records": 673,
+    "merged_regions": 13
+  },
+  "merged_region_groups": {
+    "AĞCABƏDİ": [
+      "AĞCABƏDI",
+      "AĞCABƏDİ"
+    ],
+    "BAKİ": [
+      "BAKI",
+      "BAKİ"
+    ],
+    "CƏLİLABAD": [
+      "CƏLILABAD",
+      "CƏLİLABAD"
+    ],
+    "FÜZULİ": [
+      "FÜZULI",
+      "FÜZULİ"
+    ],
+    "KÜRDƏMİR": [
+      "KÜRDƏMIR",
+      "KÜRDƏMİR"
+    ],
+    "LERİK": [
+      "LERIK",
+      "LERİK"
+    ],
+    "MİNGƏÇEVİR": [
+      "MINGƏÇEVIR",
+      "MİNGƏÇEVİR"
+    ],
+    "PİRALLAHI": [
+      "PIRALLAHI",
+      "PİRALLAHI"
+    ],
+    "SABİRABAD": [
+      "SABIRABAD",
+      "SABİRABAD"
+    ],
+    "SİYƏZƏN": [
+      "SIYƏZƏN",
+      "SİYƏZƏN"
+    ],
+    "İMİŞLİ": [
+      "İMIŞLI",
+      "İMİŞLİ"
+    ],
+    "ŞİRVAN": [
+      "ŞIRVAN",
+      "ŞİRVAN"
+    ],
+    "ŞƏKİ": [
+      "ŞƏKI",
+      "ŞƏKİ"
+    ]
+  }
+}
